@@ -1,7 +1,7 @@
 <?php
 /*
 To check after file upload, pass the returned url with ?key = gemini-key
-https://generativelanguage.googleapis.com/v1beta/files/411oqcjycowa?key=AIzaSyBrvherZX6ljNeTwsm4SsQXIIBS0Tza3rQ
+https://generativelanguage.googleapis.com/v1beta/files/411oqcjycowa?key=
 */
 
 $API_KEY   = "";  // rotate your key since it was shared
