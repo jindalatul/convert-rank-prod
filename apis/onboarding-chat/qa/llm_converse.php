@@ -1,17 +1,19 @@
 <?php
-// Minimal mysqli helper
-$DB_HOST = "lamp-docker-db-1";
-$DB_USER = "root";
-$DB_PASS = "root_password";
-$DB_NAME = "hub-spoke";
+require_once dirname(dirname(__DIR__)) . '/common/config.php';
+require_once dirname( dirname(dirname(__DIR__) ) ). '/db/connection.php';
 
-$mysqli = @mysqli_connect($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
+//var_dump($credentials["GEMINI_KEY"]); die();
+//var_dump($credentials["DB"]); die();
+
+$mysqli = getDbConnection($credentials["DB"]);
+
 if (!$mysqli) {
   http_response_code(500);
   header('Content-Type: application/json');
   echo json_encode(['ok'=>false,'error'=>'DB_CONNECTION_FAILED','message'=>mysqli_connect_error()]);
   exit;
 }
+
 mysqli_set_charset($mysqli, 'utf8mb4');
 
 // Allow CORS for localhost dev

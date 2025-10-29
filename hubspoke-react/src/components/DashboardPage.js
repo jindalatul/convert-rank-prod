@@ -7,8 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 import KeywordsFilterTable from "./keywordsTable/KeywordsTable.js";
 
-import { API_BASE, ACCESS_TOKEN} from "../config.js";
-const API_PATH = `${API_BASE}/keywords/`;
+import { API_PATH, ACCESS_TOKEN } from "../config.js";
 
 function safeJsonParse(value) {
   if (typeof value === "string") {
@@ -35,7 +34,7 @@ export default function DashboardPage()
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await fetch(`${API_PATH}/get-keywords-v2-mock.php`, {
+        const res = await fetch(`${API_PATH}/keywords/get-keywords-v2-mock.php`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

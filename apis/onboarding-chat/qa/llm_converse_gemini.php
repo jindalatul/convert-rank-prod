@@ -1,10 +1,12 @@
 <?php
-$DB_HOST = "lamp-docker-db-1";
-$DB_USER = "root";
-$DB_PASS = "root_password";
-$DB_NAME = "hub-spoke";
+require_once dirname(dirname(__DIR__)) . '/common/config.php';
+require_once dirname( dirname(dirname(__DIR__) ) ). '/db/connection.php';
 
-$mysqli = @mysqli_connect($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME);
+//var_dump($credentials["GEMINI_KEY"]); die();
+//var_dump($credentials["DB"]); die();
+
+$mysqli = getDbConnection($credentials["DB"]);
+
 if (!$mysqli) {
   http_response_code(500);
   header('Content-Type: application/json');
@@ -21,6 +23,8 @@ mysqli_set_charset($mysqli, 'utf8mb4');
  * USE_JWT:           true => conversation key from Authorization: Bearer <JWT> (sub/sid). false => IP+UA fingerprint
  * SECOND_FROM_BANK:  true => Q2 also from bank; Gemini starts at Q3 for richer context
  */
+
+
 $USE_LLM = false;
 $USE_JWT = false;
 $SECOND_FROM_BANK = true;
@@ -29,14 +33,12 @@ $SECOND_FROM_BANK = true;
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
+
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') exit;
 header('Content-Type: application/json');
 
-error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
-ini_set('display_errors', 0);
-
 // ===== Gemini config (only used if USE_LLM = true) =====
-$GEMINI_API_KEY = getenv('GEMINI_API_KEY') ?: 'AIzaSyBrvherZX6ljNeTwsm4SsQXIIBS0Tza3rQ';
+$GEMINI_API_KEY = $credentials["GEMINI_KEY"] ?: '';
 $GEMINI_MODEL   = 'gemini-2.5-flash';
 $G_TIMEOUT_SEC  = 20;
 
@@ -178,7 +180,8 @@ PROMPT;
 function read_json(){ $raw=file_get_contents('php://input'); $d=json_decode($raw,true); return is_array($d)?$d:[]; }
 function send($arr,$code=200){ http_response_code($code); echo json_encode($arr); exit; }
 
-function save_project_simple($user_id,$project_name,$persona_json,$seed_keywords_json,$chat_log_json){
+function save_project_simple($user_id,$project_name,$persona_json,$seed_keywords_json,$chat_log_json)
+{
   global $mysqli;
   $user_id=(int)$user_id;
   $project_name=mysqli_real_escape_string($mysqli,$project_name);
@@ -187,6 +190,7 @@ function save_project_simple($user_id,$project_name,$persona_json,$seed_keywords
   $chat_log_json=mysqli_real_escape_string($mysqli,$chat_log_json);
   $sql="INSERT INTO projects (user_id, project_name, persona_json, seed_keywords, chat_log)
         VALUES ($user_id, '$project_name', '$persona_json', '$seed_keywords_json', '$chat_log_json')";
+        
   if(!mysqli_query($mysqli,$sql)){
     send(['ok'=>false,'status'=>'ERROR','error'=>'INSERT_FAILED','message'=>mysqli_error($mysqli)],500);
   }
@@ -289,7 +293,9 @@ function load_state(bool $USE_JWT): array {
   if (!is_array($j) || ($j['ts'] ?? 0) < time()-600) return ['ts'=>time(),'clarified'=>[],'last_asked'=>null,'chat_log'=>[]];
   return $j;
 }
+
 function save_state(array $s, bool $USE_JWT): void { $s['ts']=time(); @file_put_contents(conv_state_path($USE_JWT), json_encode($s)); }
+
 function clear_state(bool $USE_JWT): void { @unlink(conv_state_path($USE_JWT)); }
 
 // very light invalidity check (empty answer)

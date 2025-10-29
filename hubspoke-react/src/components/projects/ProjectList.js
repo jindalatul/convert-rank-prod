@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Link,useNavigate } from 'react-router-dom';
 
-import MainFormPage from "../MainFormPage";
 
 import "./ProjectList.css";
 
-import { API_BASE, ACCESS_TOKEN} from "../../config";
+import { API_PATH, ACCESS_TOKEN} from "../../config";
 
-const API_PATH = `${API_BASE}/oboarding-chat/`;
+// console.log(API_PATH);
 
 function ProjectList() {
   const [projects, setProjects] = useState([]);
@@ -17,7 +16,7 @@ function ProjectList() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(ACCESS_TOKEN);
+    // console.log(ACCESS_TOKEN);
     fetchProjects();
   }, []);
 

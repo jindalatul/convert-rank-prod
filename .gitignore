@@ -1,17 +1,14 @@
-# Ignore env files anywhere
-db_env.php
-google-login-env.php
-**/db_env.php
-**/google-login-env.php
-.env
-**/.env
+# Ignore the node_modules directory in your React project.
+hubspoke-react/node_modules/
 
-# Env folder: ignore everything…
+# Ignore all environment files in the `env` directory.
+# But keep the `template-env.php` file, which is a template for the environment variables.
 env/*
-# …but keep the folder and specific files
-!env/
-!env/template-*
+!env/template-env.php
 !env/.htaccess
 !env/index.php
-# (optional placeholder)
-!env/.gitkeep
+
+# Ignore other common files in React projects
+# that are typically built or temporary.
+hubspoke-react/build/
+hubspoke-react/.env

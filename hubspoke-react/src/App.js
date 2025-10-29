@@ -1,6 +1,6 @@
 import './index.css';
-import React, {useEffect} from "react";
-import { Routes, Route,Link, useNavigate } from "react-router-dom";
+import React from "react";
+import { Routes, Route} from "react-router-dom";
 import TopNav from './components/common/topNav.js';
 import Footer from './components/common/footer.js';
 

@@ -2,15 +2,15 @@ import React from "react";
 import "./ChatGPTLikeChat.css";
 import { useNavigate } from "react-router-dom";
 
-//const API_BASE = "http://localhost/dev1/apis";
-//const QA_URL   = `/apis/onboarding-chat/qa/base_questions.php`;
-//const SAVE_URL = `/apis/onboarding-chat/save_persona.php`;
-
 /** ================================
  *  CONFIG
  *  ================================ */
-const CONVERSE_URL = `/apis/onboarding-chat/qa/llm_converse_gemini.php`;
+
+import { API_PATH, ACCESS_TOKEN} from "../../config";
+
+const CONVERSE_URL = `${API_PATH}/onboarding-chat/qa/llm_converse_gemini.php`;
 //const CONVERSE_URL = `/apis/onboarding-chat/qa/llm_converse-no-llm.php`;
+
 /** ================================
  *  COMPONENT
  *  ================================ */

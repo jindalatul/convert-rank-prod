@@ -1,24 +1,16 @@
 <?php
-function getDbConnection() 
+function getDbConnection($credentials) 
 {
     static $conn = null;
     if ($conn) return $conn;
 
-    // Path to env file at project root
-    $envPath = dirname(__DIR__) . '/env/db_env.php';
-
-    if (!file_exists($envPath)) {
-        error_log('DB env file missing: ' . $envPath);
-        return null;
-    }
-
-    $env = require $envPath;
+    //var_dump($credentials); die();
 
     // Extract vars safely
-    $host     = $env['DB_HOST'] ?? 'localhost';
-    $dbname   = $env['DB_NAME'] ?? 'test';
-    $username = $env['DB_USER'] ?? 'root';
-    $password = $env['DB_PASSWORD'] ?? '';
+    $host     = $credentials['HOST'] ?? 'localhost';
+    $dbname   = $credentials['DATABASE'] ?? '';
+    $username = $credentials['USERNAME'] ?? '';
+    $password = $credentials['PASSWORD'] ?? '';
 
     // Create MySQLi connection
     $conn = new mysqli($host, $username, $password, $dbname);
@@ -31,7 +23,9 @@ function getDbConnection()
     $conn->set_charset('utf8mb4');
     return $conn;
 }
+
 // For testing connection
+
 //$conn = getDbConnection();
 //var_dump($conn);
 ?>
