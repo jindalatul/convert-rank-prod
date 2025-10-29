@@ -2,7 +2,12 @@
 require_once dirname(dirname(__DIR__)) . '/common/config.php';
 require_once dirname( dirname(dirname(__DIR__) ) ). '/db/connection.php';
 
-//var_dump($credentials["GEMINI_KEY"]); die();
+$envPath = get_env_path() . '/env.php'; //echo "envPath",$envPath ; 
+
+if (!file_exists($envPath)) { die('Env file missing'); }
+$credentials = require $envPath;
+
+//var_dump($credentials["GEMINI_KEY"]); //die();
 //var_dump($credentials["DB"]); die();
 
 $mysqli = getDbConnection($credentials["DB"]);

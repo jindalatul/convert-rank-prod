@@ -2,12 +2,10 @@
 ini_set("display_errors","Off");
 error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 
-$envPath = dirname(dirname(__DIR__)) . '/env/env.php';
-//echo "envPath",$envPath ; //die();
-
-require_once($envPath);
-
-//var_dump($credentials);
+function get_env_path()
+{
+    return "/var/www/html/convert-rank-prod/env/";
+}
 
 function sendJSON($data,$code)
 {

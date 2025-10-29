@@ -2,6 +2,11 @@
 require_once __DIR__ . '/common/config.php';
 require_once dirname(__DIR__) . '/db/connection.php';
 
+$envPath = get_env_path() . '/env.php'; //echo "envPath",$envPath ; 
+
+if (!file_exists($envPath)) { die('Env file missing'); }
+$credentials = require $envPath;
+
 //var_dump($credentials["DB"]);  die("-----GET PROJECTS--------");
 
 //$jwt_path = dirname(dirname(__FILE__)); 
