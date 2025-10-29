@@ -1,0 +1,17 @@
+# Ignore env files anywhere
+db_env.php
+google-login-env.php
+**/db_env.php
+**/google-login-env.php
+.env
+**/.env
+
+# Env folder: ignore everything…
+env/*
+# …but keep the folder and specific files
+!env/
+!env/template-*
+!env/.htaccess
+!env/index.php
+# (optional placeholder)
+!env/.gitkeep
